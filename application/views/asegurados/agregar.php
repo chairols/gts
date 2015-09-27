@@ -1,4 +1,4 @@
-<div class="col-sm-8">
+<div class="container col-sm-8">
     <form class="form-horizontal" method="post">
         <p class="h3">Agregar Asegurados</p>
         <p class="h3">&nbsp;</p>

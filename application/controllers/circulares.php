@@ -74,6 +74,12 @@ class Circulares extends CI_Controller {
         $data['circular'] = $this->circulares_model->get_where($datos);
         $data['compania'] = $this->companias_model->get_compania_por_id($data['circular']['idcompania']);
         
+        $circular_leido = $this->circulares_model->get_circular_leido($idcircular, $session['SID']);
+        if(empty($circular_leido)) {
+            $this->circulares_model->set_circular_leida($idcircular, $session['SID']);
+        }
+        $circular_leido = $this->circulares_model->get_circular_leido($idcircular, $session['SID']);
+        
         $this->load->view('layout/header', $session);
         $this->load->view('layout/panel-izquierda', $left);
         $this->load->view('circulares/view', $data);

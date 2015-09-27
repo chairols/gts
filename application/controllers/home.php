@@ -13,7 +13,8 @@ class Home extends CI_Controller {
             'url'
         ));
         $this->load->model(array(
-            'documentacion_model'
+            'documentacion_model',
+            'circulares_model'
         ));
         
         $session = $this->session->all_userdata();
@@ -33,6 +34,14 @@ class Home extends CI_Controller {
         $data['cobranzas'] = $this->documentacion_model->get_cobranzas_nuevas($session['admin'], $session['SID']);
         $data['siniestros'] = $this->documentacion_model->get_siniestros_nuevas($session['admin'], $session['SID']);
         $data['varios'] = $this->documentacion_model->get_varios_nuevas($session['admin'], $session['SID']);
+        
+        $circulares = $this->circulares_model->gets_no_leidas($session['SID']);
+        $i = 0;
+        foreach($circulares as $circular) {
+            if(!$circular['idusuario'])
+                $i++;
+        }
+        $data['circulares'] = $i;
         
         $this->load->view('layout/header', $session);
         $this->load->view('layout/panel-izquierda', $left);
