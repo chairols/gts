@@ -219,5 +219,13 @@ class Siniestros extends CI_Controller {
         
         redirect("/siniestros/responder/$idsiniestro/", 'refresh');
     }
+    
+    public function eliminar($idsiniestro) {
+        $session = $this->session->all_userdata();
+        if(isset($session['SID'])) {
+            $this->siniestros_model->eliminar($idsiniestro);
+            redirect('/siniestros/todas', 'refresh');
+        }
+    }
 }
 ?>

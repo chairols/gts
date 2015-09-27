@@ -34,5 +34,10 @@ class Siniestros_model extends CI_Model {
         $query = $this->db->get_where('siniestros', $datos);
         return $query->result_array();
     }
+    
+    public function eliminar($idsiniestro) {
+        $this->db->delete('respuestas_siniestros', array('idsiniestro' => $idsiniestro));
+        $this->db->delete('siniestros', array('idsiniestro' => $idsiniestro));
+    }
 }
 ?>

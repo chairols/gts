@@ -130,6 +130,9 @@
             <a href="/siniestros/reabrir/<?=$siniestro['idsiniestro']?>">
                 <input type="button" value="Reabrir Ticket" class="btn btn-primary">
             </a>
+            <a href="/siniestros/eliminar/<?=$siniestro['idsiniestro']?>">
+                <input type="button" value="Eliminar Ticket" class="btn btn-primary">
+            </a>
         </div>
     </div>
     <?php } ?>
