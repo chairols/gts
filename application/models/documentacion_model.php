@@ -2096,5 +2096,10 @@ class Documentacion_model extends CI_Model {
         $query = $this->db->get_where('documentacion', $datos);
         return $query->result_array();
     }
+    
+    public function eliminar($iddocumentacion) {
+        $this->db->delete('respuestas_documentacion', array('iddocumentacion' => $iddocumentacion));
+        $this->db->delete('documentacion', array('iddocumentacion' => $iddocumentacion));
+    }
 }
 ?>
