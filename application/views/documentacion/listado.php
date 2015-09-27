@@ -1,5 +1,12 @@
+<link rel="stylesheet" type="text/css" href="/assets/DataTables-1.10.7/media/css/jquery.dataTables.min.css">
+<script type="text/javascript" language="javascript" src="/assets/DataTables-1.10.7/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#tabla").dataTable();
+    });
+</script>
 <div class="col-sm-8">
-    <table class="table table-bordered table-striped table-condensed">
+    <table class="table table-bordered table-striped table-condensed" id="tabla">
         <thead>
             <tr>
                 <th>Ticket ID</th>
