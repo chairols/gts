@@ -1851,16 +1851,20 @@ class Documentacion_model extends CI_Model {
         if($admin == 1) {
             $query = $this->db->query("SELECT count(*) as cant
                                         FROM 
-                                            siniestros
+                                            siniestros s,
+                                            usuarios u
                                         WHERE
-                                            nueva = '1'");
+                                            s.productor = u.idusuario AND
+                                            s.nueva = '1'");
         } else {
             $query = $this->db->query("SELECT count(*) as cant
                                         FROM 
-                                            siniestros
+                                            siniestros s,
+                                            usuarios u
                                         WHERE
-                                            productor = '$idusuario' AND
-                                            nueva = '1'");
+                                            s.productor = u.idusuario AND
+                                            s.productor = '$idusuario' AND
+                                            s.nueva = '1'");
         }
         $res = $query->row_array();
         return $res['cant'];
@@ -1892,18 +1896,22 @@ class Documentacion_model extends CI_Model {
         if($admin == 1) {
             $query = $this->db->query("SELECT count(*) as cant
                                         FROM 
-                                            siniestros
+                                            siniestros s,
+                                            usuarios u
                                         WHERE
-                                            pendiente = '1' AND
-                                            abierta = '1'");
+                                            s.productor = u.idusuario AND
+                                            s.pendiente = '1' AND
+                                            s.abierta = '1'");
         } else {
             $query = $this->db->query("SELECT count(*) as cant
                                     FROM 
-                                        siniestros
+                                        siniestros s,
+                                        usuarios u
                                     WHERE
-                                        productor = '$idusuario' AND
-                                        pendiente = '0' AND
-                                        abierta = '1'");
+                                        s.productor = u.idusuario AND
+                                        s.productor = '$idusuario' AND
+                                        s.pendiente = '0' AND
+                                        s.abierta = '1'");
         }
         $res = $query->row_array();
         return $res['cant'];
@@ -1937,16 +1945,20 @@ class Documentacion_model extends CI_Model {
         if($admin == 1) {
             $query = $this->db->query("SELECT count(*) as cant
                                         FROM 
-                                            siniestros
+                                            siniestros s,
+                                            usuarios u
                                         WHERE
-                                            abierta = '1'");
+                                            s.productor = u.idusuario AND
+                                            s.abierta = '1'");
         } else {
             $query = $this->db->query("SELECT count(*) as cant
                                     FROM 
-                                        siniestros
+                                        siniestros s,
+                                        usuarios u
                                     WHERE
-                                        productor = '$idusuario' AND
-                                        abierta = '1'");
+                                        s.productor = u.idusuario AND
+                                        s.productor = '$idusuario' AND
+                                        s.abierta = '1'");
         }
         $res = $query->row_array();
         return $res['cant'];
@@ -2019,30 +2031,31 @@ class Documentacion_model extends CI_Model {
         if($admin == 1) {
             $query = $this->db->query("SELECT count(*) as cant
                                         FROM 
-                                            siniestros");
+                                            siniestros s,
+                                            usuarios u
+                                        WHERE
+                                            s.productor = u.idusuario");
         } else {
             $query = $this->db->query("SELECT count(*) as cant
                                     FROM 
-                                        siniestros
+                                        siniestros s,
+                                        usuarios u
                                     WHERE
+                                        s.productor = u.idusuario AND
                                         productor = '$idusuario'");
         }
         $res = $query->row_array();
         return $res['cant'];
     }
     
-    public function get_siniestros_todas_listado($pagina, $admin, $idusuario) {
-        $pagina = $pagina-1;
-        $pagina = $pagina * 25;
+    public function get_siniestros_todas_listado($admin, $idusuario) {
         if($admin == 1) {
             $query = $this->db->query("SELECT *
                                         FROM 
                                             siniestros s,
                                             usuarios u
                                         WHERE
-                                            s.productor = u.idusuario
-                                        LIMIT
-                                            $pagina, 25");
+                                            s.productor = u.idusuario");
         } else {
             $query = $this->db->query("SELECT *
                                         FROM 
@@ -2050,9 +2063,7 @@ class Documentacion_model extends CI_Model {
                                             usuarios u
                                         WHERE
                                             s.productor = u.idusuario AND
-                                            s.productor = '$idusuario'
-                                        LIMIT
-                                            $pagina, 25");
+                                            s.productor = '$idusuario'");
         }
         return $query->result_array();
     }

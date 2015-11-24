@@ -14,6 +14,9 @@ class Asegurados extends CI_Controller {
             'companias_model',
             'asegurados_model'
         ));
+        $this->load->helper(array(
+            'url'
+        ));
     }
     
     public function agregar() {
@@ -68,5 +71,47 @@ class Asegurados extends CI_Controller {
         $this->load->view('layout/footer');
     }
     
+    public function editar($idasegurado = null) {
+        $session = $this->session->all_userdata();
+        $this->h_session->check($session);
+        if($idasegurado == null) {
+            show_404();
+        }
+        
+        $this->form_validation->set_rules('nombre', 'Nombre', 'required');
+        $this->form_validation->set_rules('apellido', 'Apellido', 'required');
+        
+        if($this->form_validation->run() == FALSE) {
+            
+        } else {
+            $datos = array(
+                'nombre' => $this->input->post('nombre'),
+                'apellido' => $this->input->post('apellido'),
+                'telefono' => $this->input->post('telefono'),
+                'celular' => $this->input->post('celular'),
+                'email' => $this->input->post('email'),
+                'idcompania' => $this->input->post('compania'),
+                'poliza' => $this->input->post('poliza'),
+                'observaciones' => $this->input->post('observaciones')
+            );
+            
+            $this->asegurados_model->update($datos, $idasegurado);
+            
+            redirect('/informacion/asegurados/', 'refresh');
+        }
+        
+        $datos = array(
+            'idasegurado' => $idasegurado
+        );
+        $data['asegurado'] = $this->asegurados_model->get_where($datos);
+        $data['companias'] = $this->companias_model->get_companias();
+        
+        $left = $this->h_panel->get($session);
+        
+        $this->load->view('layout/header', $session);
+        $this->load->view('layout/panel-izquierda', $left);
+        $this->load->view('asegurados/editar', $data);
+        $this->load->view('layout/footer');
+    } 
 }
 ?>

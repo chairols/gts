@@ -112,8 +112,18 @@
         <input type="file" name="adjunto">
     </div>
 </div>
-
-
+    <?php if($siniestro['abierta'] == '1' && $admin == '1') { ?>
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Enviar mail al productor</label>
+        <div class="col-lg-2">
+            <div class="checkbox">
+                <input type="checkbox" name="enviar_mail" class="checkbox">
+            </div>
+        </div>
+    </div>
+    <?php } ?>
+    
+    
     </p>
     <p>&nbsp;</p>
     <div class="col-lg-4">

@@ -148,18 +148,19 @@ class Documentacion extends CI_Controller {
                 );
                 $this->documentacion_model->update($datos, $iddocumentacion);
                 
-                
-                $this->email->from('no-responder@organizaciongts.com.ar', 'Organizacion GTS');
-                $this->email->to($session['email']);
-                $this->email->subject('Nueva Respuesta');
-                $this->email->message($session['nombre'].' '.$session['apellido'].'
+                if($this->input->post('enviarmail') == 'SI') {
+                    $this->email->from('no-responder@organizaciongts.com.ar', 'Organizacion GTS');
+                    $this->email->to($session['email']);
+                    $this->email->subject('Nueva Respuesta');
+                    $this->email->message($session['nombre'].' '.$session['apellido'].'
 
 Tiene un nuevo mensaje en organizaciongts.com.ar
 
 Haga click <a href="http://sistema.organizaciongts.com.ar">aquí</a> para verlo.');
 
-                $this->email->send();
-                
+                    $this->email->send();
+                }
+
             } else {
                 $datos = array(
                     'pendiente' => '1'
@@ -189,6 +190,7 @@ Haga click <a href="http://sistema.organizaciongts.com.ar">aquí</a> para verlo.
             $data['respuestas'][$key]['usuario'] = $this->usuarios_model->get_usuario_por_id($value['idusuario']);
         }
         $data['tipos_operacion'] = $this->tipos_operacion_model->get_tipos_operaciones();
+        $data['session'] = $session;
         
         $left = $this->h_panel->get($session);
         

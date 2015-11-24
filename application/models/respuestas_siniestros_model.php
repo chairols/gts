@@ -15,7 +15,7 @@ class Respuestas_siniestros_model extends CI_Model {
                                     WHERE
                                         idsiniestro = '$idsiniestro'
                                     ORDER BY
-                                        fecha");
+                                        fecha DESC");
         return $query->result_array();
     }
 }

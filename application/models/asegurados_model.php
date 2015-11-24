@@ -10,7 +10,7 @@ class Asegurados_model extends CI_Model {
     }
     
     public function gets() {
-        $query = $this->db->query("SELECT *
+        $query = $this->db->query("SELECT a.*, c.compania
                                     FROM
                                         asegurados a,
                                         companias c
@@ -24,6 +24,11 @@ class Asegurados_model extends CI_Model {
     public function get_where($datos) {
         $query = $this->db->get_where('asegurados', $datos);
         return $query->row_array();
+    }
+    
+    public function update($datos, $idasegurado) {
+        $id = array('idasegurado' => $idasegurado);
+        $this->db->update('asegurados', $datos, $id);
     }
 }
 ?>

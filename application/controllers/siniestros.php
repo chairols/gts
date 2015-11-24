@@ -8,7 +8,8 @@ class Siniestros extends CI_Controller {
             'session',
             'form_validation',
             'q_paginacion',
-            'h_panel'
+            'h_panel',
+            'email'
         ));
         $this->load->helper(array(
             'url'
@@ -142,12 +143,10 @@ class Siniestros extends CI_Controller {
         $this->load->view('layout/footer');
     }
     
-    public function todas($pagina = null) {
+    public function todas() {
         $session = $this->session->all_userdata();
-        if(!$pagina) { $pagina = 1; }
-        $data['paginacion'] = $this->q_paginacion->paginar($pagina, 25, $this->documentacion_model->get_siniestros_todas($session['admin'], $session['SID']), '/emisiones/todas');
         
-        $data['nuevas'] = $this->documentacion_model->get_siniestros_todas_listado($pagina, $session['admin'], $session['SID']);
+        $data['nuevas'] = $this->documentacion_model->get_siniestros_todas_listado($session['admin'], $session['SID']);
         
         $left = $this->h_panel->get($session);
         
@@ -161,6 +160,8 @@ class Siniestros extends CI_Controller {
         $session = $this->session->all_userdata();
         
         $this->form_validation->set_rules('respuesta', 'Respuesta', 'required');
+        
+        $data['siniestro'] = $this->siniestros_model->get_siniestro_por_id($idsiniestro);
         
         if($this->form_validation->run() == FALSE) {
             
@@ -189,11 +190,23 @@ class Siniestros extends CI_Controller {
             
             $this->respuestas_siniestros_model->set_respuesta($datos);
             
+            if($this->input->post('enviar_mail')) {
+                $this->email->from('noresponder@organizaciongts.com.ar', 'Organización GTS');
+                $this->email->to($data['siniestro']['email']);
+                
+                $this->email->subject('Nueva Respuesta');
+                $this->email->message('Asunto: '.$data['siniestro']['asunto'].'
+Póliza: '.$data['siniestro']['poliza'].'
+Tipo de Siniestro: '.$data['siniestro']['tipo_siniestro'].'
+Número de Siniestro: '.$data['siniestro']['numero_siniestro']);
+                
+                $this->email->send();
+            }
+            
         }
         
         $left = $this->h_panel->get($session);
         
-        $data['siniestro'] = $this->siniestros_model->get_siniestro_por_id($idsiniestro);
         $data['respuestas'] = $this->respuestas_siniestros_model->get_respuestas_por_id($idsiniestro);
         foreach ($data['respuestas'] as $key => $value) {
             $data['respuestas'][$key]['usuario'] = $this->usuarios_model->get_usuario_por_id($value['idusuario']);

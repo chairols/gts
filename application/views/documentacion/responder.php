@@ -123,7 +123,14 @@
     </div>
 </div>
 
-
+<?php if($session['admin'] == 1) { ?>
+<div class="form-group">
+    <label class="col-lg-2 control-label">Enviar Mail</label>
+    <div class="col-lg-2">
+        <input type="checkbox" name="enviarmail" value="SI">
+    </div>
+</div>
+<?php } ?>
 
 
     </p>

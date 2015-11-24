@@ -10,7 +10,7 @@ class Siniestros_model extends CI_Model {
     }
     
     public function get_siniestro_por_id($idsiniestro) {
-        $query = $this->db->query("SELECT s.*, u.nombre, u.apellido, sec.*
+        $query = $this->db->query("SELECT s.*, u.nombre, u.apellido, u.email, sec.*
                                     FROM
                                         siniestros s,
                                         usuarios u,
